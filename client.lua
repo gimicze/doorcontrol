@@ -62,7 +62,7 @@ function init()
                     playerCoords = GetEntityCoords(playerPed)
                     nearestVehicle = GetNearestVehicle()
 
-                    if nearestVehicle then
+                    if nearestVehicle and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
                         local nearestDoorIndexTemp, nearestDoorDistanceTemp, nearestDoorCoordsTemp = nil
                         for doorIndex, boneName in pairs(doorBones) do
                             Citizen.Wait(10)
@@ -113,7 +113,7 @@ function init()
                         end
                     end
                     if nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
-                        DrawTextThisFrame("[G] Roll down / up", nearestDoorCoords + vector3(0, 0, tonumber(GetTextScaleHeight(Config.Text.scale, Config.Text.font)) * 2.5))
+                        DrawTextThisFrame("[G] Roll down / up", nearestDoorCoords + vector3(0, 0, tonumber(GetTextScaleHeight(Config.Text.scale, Config.Text.font)) * 6.0))
                         if IsControlJustPressed(0, 47) then
                             if IsVehicleWindowIntact(nearestVehicle, nearestDoorIndex) then
                                 RollDownWindow(nearestVehicle, nearestDoorIndex)
