@@ -134,6 +134,10 @@ function init()
     end
 end
 
+if GetResourceKvpInt("enabled") == nil then
+    SetResourceKvpInt("enabled", 1)
+end
+
 local stopThreads = (GetResourceKvpInt("enabled") == 1) and init() or nil
 
 --================================--
