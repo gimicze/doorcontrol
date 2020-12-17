@@ -21,7 +21,7 @@ start doorcontrol
 
 # Usage & Commands
 
-`/doorcontrol` (alias `/dc`) - *Enables or disables the door controls. This option is stored and persists upon reconnect / restart.*
+`/doorcontrol` (alias `/dc`) - *Enables or disables the door controls. This option is stored and persists upon reconnection / restart.*
 
 *Note: The controls are disabled by default.*
 
