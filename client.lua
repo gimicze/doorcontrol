@@ -143,7 +143,7 @@ local stopThreads = (GetResourceKvpInt("enabled") == 1) and init() or nil
 RegisterCommand(
     'doorcontrol',
     function()
-        SwitchControl()
+        SwitchControls()
     end,
     false
 )
@@ -151,7 +151,7 @@ RegisterCommand(
 RegisterCommand(
     'dc',
     function()
-        SwitchControl()
+        SwitchControls()
     end,
     false
 )
@@ -160,7 +160,7 @@ RegisterCommand(
 --           FUNCTIONS            --
 --================================--
 
-function SwitchControl()
+function SwitchControls()
     if stopThreads then
         stopThreads()
         stopThreads = nil
