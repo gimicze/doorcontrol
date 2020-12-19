@@ -87,10 +87,12 @@ function init()
                         end
                         nearestDoorIndex, nearestDoorCoords, nearestDoorDistance = nearestDoorIndexTemp, nearestDoorCoordsTemp, nearestDoorDistanceTemp
                     elseif nearestDoorIndex then
-                        nearestDoorDistance, nearestDoorIndex, nearestDoorCoords = nil
+                        nearestVehicle, nearestDoorDistance, nearestDoorIndex, nearestDoorCoords = nil
                     end
                 else
-                    ResetNearestVehicle()
+                    if nearestDoorIndex then
+                        nearestVehicle, nearestDoorDistance, nearestDoorIndex, nearestDoorCoords = nil
+                    end
                     Citizen.Wait(1000)
                 end
             end
@@ -127,7 +129,7 @@ local stopThreads = ((Config.enabledByDefault and GetResourceKvpString("enabled"
 RegisterCommand(
     '+door',
     function()
-        if stopThreads then
+        if stopThreads and nearestDoorIndex then
             if GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
                 SetVehicleDoorShut(nearestVehicle, nearestDoorIndex, false)
             else
@@ -153,7 +155,7 @@ RegisterKeyMapping('+door', 'Open / close the nearest door', 'keyboard', 'e')
 RegisterCommand(
     '+window',
     function()
-        if stopThreads and nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
+        if stopThreads and nearestDoorIndex and nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
             if IsVehicleWindowIntact(nearestVehicle, nearestDoorIndex) then
                 RollDownWindow(nearestVehicle, nearestDoorIndex)
             else
@@ -204,12 +206,6 @@ function SwitchControls()
     else
         stopThreads = init()
         SetResourceKvp("enabled", "true")
-    end
-end
-
-function ResetNearestVehicle()
-    if nearestDoorIndex then
-        nearestVehicle, nearestDoorDistance, nearestDoorIndex, nearestDoorCoords = nil
     end
 end
 
