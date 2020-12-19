@@ -1,5 +1,5 @@
 --================================--
---       DoorControl v1.0.0       --
+--       DoorControl v1.1.0       --
 --           (by GIMI)            --
 --      License: GNU GPL 3.0      --
 --================================--
@@ -65,7 +65,7 @@ function init()
                     if nearestVehicle and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
                         local nearestDoorIndexTemp, nearestDoorDistanceTemp, nearestDoorCoordsTemp = nil
                         for doorIndex, boneName in pairs(doorBones) do
-                            Citizen.Wait(10)
+                            Citizen.Wait(30)
                             
                             local boneIndex = GetEntityBoneIndexByName(nearestVehicle, boneName)
                             
