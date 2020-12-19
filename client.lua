@@ -101,26 +101,8 @@ function init()
                 Citizen.Wait(0)
                 if nearestVehicle and nearestDoorIndex then
                     DrawTextThisFrame("[E] Open / Close", nearestDoorCoords)
-                    if IsControlJustPressed(0, 46) then -- E 
-                        if GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
-                            SetVehicleDoorShut(nearestVehicle, nearestDoorIndex, false)
-                        else
-                            if nearestDoorIndex == 0 then
-                                TaskOpenVehicleDoor(playerPed, nearestVehicle, 1.0, nearestDoorIndex, 1.0)
-                            else
-                                SetVehicleDoorOpen(nearestVehicle, nearestDoorIndex, false, false)
-                            end
-                        end
-                    end
                     if nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
                         DrawTextThisFrame("[G] Roll down / up", nearestDoorCoords + vector3(0, 0, tonumber(GetTextScaleHeight(Config.Text.scale, Config.Text.font)) * 6.0))
-                        if IsControlJustPressed(0, 47) then
-                            if IsVehicleWindowIntact(nearestVehicle, nearestDoorIndex) then
-                                RollDownWindow(nearestVehicle, nearestDoorIndex)
-                            else
-                                RollUpWindow(nearestVehicle, nearestDoorIndex)
-                            end
-                        end
                     end
                 else
                     Citizen.Wait(1000)
@@ -134,11 +116,59 @@ function init()
     end
 end
 
-if GetResourceKvpInt("enabled") == nil then
-    SetResourceKvpInt("enabled", 1)
-end
+local stopThreads = (GetResourceKvpInt("enabled") == nil or GetResourceKvpInt("enabled") == 1) and init() or nil
 
-local stopThreads = (GetResourceKvpInt("enabled") == 1) and init() or nil
+--================================--
+--            KEYBINDS            --
+--================================--
+
+RegisterCommand(
+    '+door',
+    function()
+        if stopThreads then
+            if GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
+                SetVehicleDoorShut(nearestVehicle, nearestDoorIndex, false)
+            else
+                if nearestDoorIndex == 0 then
+                    TaskOpenVehicleDoor(playerPed, nearestVehicle, 1.0, nearestDoorIndex, 1.0)
+                else
+                    SetVehicleDoorOpen(nearestVehicle, nearestDoorIndex, false, false)
+                end
+            end
+        end
+    end,
+    false
+)
+
+RegisterCommand(
+    '-door',
+    function() end,
+    false
+)
+
+RegisterKeyMapping('+door', 'Open / close the nearest door', 'keyboard', 'e')
+
+RegisterCommand(
+    '+window',
+    function()
+        if stopThreads and nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
+            if IsVehicleWindowIntact(nearestVehicle, nearestDoorIndex) then
+                RollDownWindow(nearestVehicle, nearestDoorIndex)
+            else
+                RollUpWindow(nearestVehicle, nearestDoorIndex)
+            end
+        end
+    end,
+    false
+)
+
+RegisterCommand(
+    '-window',
+    function() end,
+    false
+)
+
+RegisterKeyMapping('+window', 'Roll up / down the nearest window', 'keyboard', 'g')
 
 --================================--
 --            COMMANDS            --
