@@ -1,4 +1,4 @@
-# DoorControl v1.0
+# DoorControl v1.1
 
 A FiveM resource enabling users to open vehicle's doors easily from the outside.
 
