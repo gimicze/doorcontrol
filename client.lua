@@ -1,10 +1,12 @@
 --================================--
---       DoorControl v1.1.0       --
+--       DoorControl v1.1.1       --
 --           (by GIMI)            --
 --      License: GNU GPL 3.0      --
 --================================--
 
 Config = {}
+
+Config.enabledByDefault = true
 
 Config.Vehicle = {
     searchRadius = 1.0
@@ -65,7 +67,7 @@ function init()
                     if nearestVehicle and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
                         local nearestDoorIndexTemp, nearestDoorDistanceTemp, nearestDoorCoordsTemp = nil
                         for doorIndex, boneName in pairs(doorBones) do
-                            Citizen.Wait(30)
+                            Citizen.Wait(10)
                             
                             local boneIndex = GetEntityBoneIndexByName(nearestVehicle, boneName)
                             
@@ -116,7 +118,7 @@ function init()
     end
 end
 
-local stopThreads = (GetResourceKvpInt("enabled") == nil or GetResourceKvpInt("enabled") == 1) and init() or nil
+local stopThreads = ((Config.enabledByDefault and GetResourceKvpString("enabled") == nil) or GetResourceKvpString("enabled") == "true") and init() or nil
 
 --================================--
 --            KEYBINDS            --
@@ -198,10 +200,10 @@ function SwitchControls()
     if stopThreads then
         stopThreads()
         stopThreads = nil
-        SetResourceKvpInt("enabled", 0)
+        SetResourceKvp("enabled", "false")
     else
         stopThreads = init()
-        SetResourceKvpInt("enabled", 1)
+        SetResourceKvp("enabled", "true")
     end
 end
 
