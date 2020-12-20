@@ -151,9 +151,7 @@ RegisterCommand(
             if GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
                 SetVehicleDoorShut(nearestVehicle, nearestDoorIndex, false)
             else
-                if nearestDoorIndex < 2 then
-                    TaskOpenVehicleDoor(playerPed, nearestVehicle, 1.0, 0, 1.0)
-                elseif nearestDoorIndex < 4 then
+                if nearestDoorIndex < 4 then
                     TaskOpenVehicleDoor(playerPed, nearestVehicle, 1.0, (nearestDoorIndex - 1), 1.0)
                 else
                     SetVehicleDoorOpen(nearestVehicle, nearestDoorIndex, false, false)
