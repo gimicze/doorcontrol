@@ -1,5 +1,5 @@
 --================================--
---       DoorControl v1.1.3       --
+--       DoorControl v1.1.4       --
 --           (by GIMI)            --
 --      License: GNU GPL 3.0      --
 --================================--
@@ -9,7 +9,10 @@ Config = {}
 Config.enabledByDefault = true
 
 Config.Vehicle = {
-    searchRadius = 1.0
+    searchRadius = 1.0,
+    blacklist = { -- Vehicle model names to be ignored by the script
+        "stretcher"
+    }
 }
 
 Config.Text = {
@@ -49,6 +52,20 @@ local doorBones = {
 }
 
 --================================--
+--       PROCESS BLACKLIST        --
+--================================--
+
+local newBlacklist = {}
+
+for k, v in pairs(Config.Vehicle.blacklist) do
+    newBlacklist[GetHashKey(v)] = true
+end
+
+Config.Vehicle.blacklist, newBlacklist = newBlacklist, nil
+
+local checkBlacklist = next(Config.Vehicle.blacklist) ~= nil
+
+--================================--
 --            THREADS             --
 --================================--
 
@@ -64,7 +81,7 @@ function init()
                     playerCoords = GetEntityCoords(playerPed)
                     nearestVehicle = GetNearestVehicle()
 
-                    if nearestVehicle and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
+                    if nearestVehicle and (checkBlacklist and not Config.Vehicle.blacklist[GetEntityModel(nearestVehicle)]) and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
                         local nearestDoorIndexTemp, nearestDoorDistanceTemp, nearestDoorCoordsTemp = nil
                         for doorIndex, boneName in pairs(doorBones) do
                             Citizen.Wait(10)
