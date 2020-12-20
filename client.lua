@@ -130,6 +130,7 @@ RegisterCommand(
     '+door',
     function()
         if stopThreads and nearestDoorIndex then
+            RequestControlOfEntity(nearestVehicle)
             if GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
                 SetVehicleDoorShut(nearestVehicle, nearestDoorIndex, false)
             else
@@ -156,6 +157,7 @@ RegisterCommand(
     '+window',
     function()
         if stopThreads and nearestDoorIndex and nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
+            RequestControlOfEntity(nearestVehicle)
             if IsVehicleWindowIntact(nearestVehicle, nearestDoorIndex) then
                 RollDownWindow(nearestVehicle, nearestDoorIndex)
             else
@@ -222,6 +224,18 @@ function GetNearestVehicle()
     return (hit == 1 and IsEntityAVehicle(entity)) and entity or false
 end
 
+function RequestControlOfEntity(entity, limit)
+    limit = limit or 20
+    local counter = 0
+    if not NetworkHasControlOfEntity(entity) then
+        NetworkRequestControlOfEntity(entity)
+        Citizen.Wait(50)
+        while not NetworkHasControlOfEntity(entity) and counter >= limit do
+            counter = counter + 1
+            Citizen.Wait(50)
+        end
+    end
+end
 
 function DrawTextThisFrame(text, coords, scale)
     local onScreen, x, y = GetScreenCoordFromWorldCoord(table.unpack(coords))
