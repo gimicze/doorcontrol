@@ -1,6 +1,6 @@
 fx_version 'adamant'
 
-version '1.1.5'
+version '1.1.6'
 description 'DoorControl (open/close vehicle doors easily)'
 author 'GIMI'
 

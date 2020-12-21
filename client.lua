@@ -1,5 +1,5 @@
 --================================--
---       DoorControl v1.1.5       --
+--       DoorControl v1.1.6       --
 --           (by GIMI)            --
 --      License: GNU GPL 3.0      --
 --================================--
@@ -152,7 +152,12 @@ RegisterCommand(
                 SetVehicleDoorShut(nearestVehicle, nearestDoorIndex, false)
             else
                 if nearestDoorIndex < 4 then
-                    TaskOpenVehicleDoor(playerPed, nearestVehicle, 1.0, (nearestDoorIndex - 1), 1.0)
+                    local doorIndex = (nearestDoorIndex - 1)
+                    if GetPedInVehicleSeat(nearestVehicle, doorIndex) ~= 0 then
+                        SetVehicleDoorOpen(nearestVehicle, nearestDoorIndex, false, false)
+                    else
+                        TaskOpenVehicleDoor(playerPed, nearestVehicle, 1.0, doorIndex, 1.0)
+                    end
                 else
                     SetVehicleDoorOpen(nearestVehicle, nearestDoorIndex, false, false)
                 end
