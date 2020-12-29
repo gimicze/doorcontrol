@@ -27,7 +27,7 @@ Config.Text = {
 
 local nearestVehicle, nearestDoorIndex, nearestDoorCoords, nearestDoorDistance = nil
 local playerCoords = nil
-local playerPed = nil
+local playerPed = PlayerPedId()
 
 --[[
     Door Index Legend:
@@ -73,7 +73,7 @@ RegisterNetEvent('playerSpawned')
 AddEventHandler(
 	'playerSpawned',
 	function()
-		playerPed = GetPlayerPed(-1)
+		playerPed = PlayerPedId()
 	end
 )
 
@@ -87,7 +87,7 @@ function init()
         function()
             while runThreads do
                 Citizen.Wait(300)
-                
+
                 if not IsPedInAnyVehicle(playerPed, true) then
                     playerCoords = GetEntityCoords(playerPed)
                     nearestVehicle = GetNearestVehicle()
