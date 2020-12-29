@@ -66,6 +66,18 @@ Config.Vehicle.blacklist, newBlacklist = newBlacklist, nil
 local checkBlacklist = next(Config.Vehicle.blacklist) ~= nil
 
 --================================--
+--          UPDATE PED            --
+--================================--
+
+RegisterNetEvent('playerSpawned')
+AddEventHandler(
+	'playerSpawned',
+	function()
+		playerPed = GetPlayerPed(-1)
+	end
+)
+
+--================================--
 --            THREADS             --
 --================================--
 
@@ -75,8 +87,7 @@ function init()
         function()
             while runThreads do
                 Citizen.Wait(300)
-
-                playerPed = GetPlayerPed(-1)
+                
                 if not IsPedInAnyVehicle(playerPed, true) then
                     playerCoords = GetEntityCoords(playerPed)
                     nearestVehicle = GetNearestVehicle()
