@@ -92,7 +92,7 @@ function init()
                     playerCoords = GetEntityCoords(playerPed)
                     nearestVehicle = GetNearestVehicle()
 
-                    if nearestVehicle and (checkBlacklist and not Config.Vehicle.blacklist[GetEntityModel(nearestVehicle)]) and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
+                    if nearestVehicle and (not checkBlacklist or not Config.Vehicle.blacklist[GetEntityModel(nearestVehicle)]) and GetVehicleDoorLockStatus(nearestVehicle) == 1 then
                         local nearestDoorIndexTemp, nearestDoorDistanceTemp, nearestDoorCoordsTemp = nil
                         for doorIndex, boneName in pairs(doorBones) do
                             Citizen.Wait(10)
