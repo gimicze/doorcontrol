@@ -1,4 +1,8 @@
-# DoorControl v1.1
+# DoorControl
+
+[![License GNU-GPL v3](https://img.shields.io/github/license/gimicze/doorcontrol?style=for-the-badge)](https://github.com/gimicze/doorcontrol/LICENSE "License")
+[![Latest release](https://img.shields.io/github/v/release/gimicze/doorcontrol?style=for-the-badge)](https://github.com/gimicze/doorcontrol/release/latest "Latest release")
+[![Total downloads](https://img.shields.io/github/downloads/gimicze/doorcontrol/total?style=for-the-badge)](https://github.com/gimicze/doorcontrol/release/latest "Total downloads")
 
 A FiveM resource enabling users to open vehicle's doors easily from the outside.
 
