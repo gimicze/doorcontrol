@@ -1,6 +1,6 @@
 # DoorControl
 
-[![License GNU-GPL v3](https://img.shields.io/github/license/gimicze/doorcontrol?style=for-the-badge)](https://github.com/gimicze/doorcontrol/LICENSE "License")
+[![License GNU-GPL v3](https://img.shields.io/github/license/gimicze/doorcontrol?style=for-the-badge)](https://github.com/gimicze/doorcontrol/blob/master/LICENSE "License")
 [![Latest release](https://img.shields.io/github/v/release/gimicze/doorcontrol?style=for-the-badge)](https://github.com/gimicze/doorcontrol/releases/latest "Latest release")
 [![Total downloads](https://img.shields.io/github/downloads/gimicze/doorcontrol/total?style=for-the-badge)](https://github.com/gimicze/doorcontrol/releases/latest "Total downloads")
 
