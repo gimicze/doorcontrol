@@ -1,5 +1,5 @@
 --================================--
---       DoorControl v1.1.7       --
+--       DoorControl v1.2.0       --
 --           (by GIMI)            --
 --      License: GNU GPL 3.0      --
 --================================--
@@ -16,6 +16,7 @@ Config.Vehicle = {
 }
 
 Config.Text = {
+    enable = true,
     scale = 0.5,
     font = 4,
     background = true
@@ -66,18 +67,6 @@ Config.Vehicle.blacklist, newBlacklist = newBlacklist, nil
 local checkBlacklist = next(Config.Vehicle.blacklist) ~= nil
 
 --================================--
---          UPDATE PED            --
---================================--
-
-RegisterNetEvent('playerSpawned')
-AddEventHandler(
-	'playerSpawned',
-	function()
-		playerPed = PlayerPedId()
-	end
-)
-
---================================--
 --            THREADS             --
 --================================--
 
@@ -87,6 +76,7 @@ function init()
         function()
             while runThreads do
                 Citizen.Wait(300)
+                playerPed = PlayerPedId()
 
                 if not IsPedInAnyVehicle(playerPed, true) then
                     playerCoords = GetEntityCoords(playerPed)
@@ -127,21 +117,23 @@ function init()
         end
     )
 
-    Citizen.CreateThread(
-        function()
-            while runThreads do
-                Citizen.Wait(0)
-                if nearestVehicle and nearestDoorIndex then
-                    DrawTextThisFrame("[E] Open / Close", nearestDoorCoords)
-                    if nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
-                        DrawTextThisFrame("[G] Roll down / up", nearestDoorCoords + vector3(0, 0, tonumber(GetTextScaleHeight(Config.Text.scale, Config.Text.font)) * 6.0))
+    if Config.Text.enable then
+        Citizen.CreateThread(
+            function()
+                while runThreads do
+                    Citizen.Wait(0)
+                    if nearestVehicle and nearestDoorIndex then
+                        DrawTextThisFrame("[E] Open / Close", nearestDoorCoords)
+                        if nearestDoorIndex < 4 and GetVehicleDoorAngleRatio(nearestVehicle, nearestDoorIndex) > 0.1 then
+                            DrawTextThisFrame("[G] Roll down / up", nearestDoorCoords + vector3(0, 0, tonumber(GetTextScaleHeight(Config.Text.scale, Config.Text.font)) * 6.0))
+                        end
+                    else
+                        Citizen.Wait(1000)
                     end
-                else
-                    Citizen.Wait(1000)
                 end
             end
-        end
-    )
+        )
+    end
 
     return function()
         runThreads = false
